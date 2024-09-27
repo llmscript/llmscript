@@ -1,0 +1,130 @@
+// LLMScript Evaluation Output
+// ComplicatedMath
+// Claude 3.5 Sonnet
+
+Executing: function fibonacci(n) { ... }
+  Function 'fibonacci' defined
+
+Executing: function mean(arr) { ... }
+  Function 'mean' defined
+
+Executing: function variance(arr) { ... }
+  Function 'variance' defined
+
+Executing: let fibNumbers = [];
+  fibNumbers initialized as an empty array
+
+Executing: for (let i = 0; i < 10; i++) { fibNumbers.push(fibonacci(i)); }
+  i = 0
+    Calculating fibonacci(0)
+      n <= 1, returning 0
+    fibNumbers.push(0)
+  i = 1
+    Calculating fibonacci(1)
+      n <= 1, returning 1
+    fibNumbers.push(1)
+  i = 2
+    Calculating fibonacci(2)
+      Calculating fibonacci(1) -> 1
+      Calculating fibonacci(0) -> 0
+      Returning 1 + 0 = 1
+    fibNumbers.push(1)
+  i = 3
+    Calculating fibonacci(3)
+      Calculating fibonacci(2) -> 1
+      Calculating fibonacci(1) -> 1
+      Returning 1 + 1 = 2
+    fibNumbers.push(2)
+  i = 4
+    Calculating fibonacci(4)
+      Calculating fibonacci(3) -> 2
+      Calculating fibonacci(2) -> 1
+      Returning 2 + 1 = 3
+    fibNumbers.push(3)
+  i = 5
+    Calculating fibonacci(5)
+      Calculating fibonacci(4) -> 3
+      Calculating fibonacci(3) -> 2
+      Returning 3 + 2 = 5
+    fibNumbers.push(5)
+  i = 6
+    Calculating fibonacci(6)
+      Calculating fibonacci(5) -> 5
+      Calculating fibonacci(4) -> 3
+      Returning 5 + 3 = 8
+    fibNumbers.push(8)
+  i = 7
+    Calculating fibonacci(7)
+      Calculating fibonacci(6) -> 8
+      Calculating fibonacci(5) -> 5
+      Returning 8 + 5 = 13
+    fibNumbers.push(13)
+  i = 8
+    Calculating fibonacci(8)
+      Calculating fibonacci(7) -> 13
+      Calculating fibonacci(6) -> 8
+      Returning 13 + 8 = 21
+    fibNumbers.push(21)
+  i = 9
+    Calculating fibonacci(9)
+      Calculating fibonacci(8) -> 21
+      Calculating fibonacci(7) -> 13
+      Returning 21 + 13 = 34
+    fibNumbers.push(34)
+  Loop complete, fibNumbers = [0, 1, 1, 2, 3, 5, 8, 13, 21, 34]
+
+Executing: let fibMean = mean(fibNumbers);
+  Calculating mean([0, 1, 1, 2, 3, 5, 8, 13, 21, 34])
+    sum = 0
+    i = 0, sum += 0, sum is now 0
+    i = 1, sum += 1, sum is now 1
+    i = 2, sum += 1, sum is now 2
+    i = 3, sum += 2, sum is now 4
+    i = 4, sum += 3, sum is now 7
+    i = 5, sum += 5, sum is now 12
+    i = 6, sum += 8, sum is now 20
+    i = 7, sum += 13, sum is now 33
+    i = 8, sum += 21, sum is now 54
+    i = 9, sum += 34, sum is now 88
+    Returning 88 / 10 = 8.8
+  fibMean = 8.8
+
+Executing: let fibVariance = variance(fibNumbers);
+  Calculating variance([0, 1, 1, 2, 3, 5, 8, 13, 21, 34])
+    Calculating mean([0, 1, 1, 2, 3, 5, 8, 13, 21, 34]) -> 8.8
+    avg = 8.8
+    Calculating squared differences:
+      i = 0, diff = 0 - 8.8 = -8.8, squaredDiff = -8.8 * -8.8 = 77.44
+      i = 1, diff = 1 - 8.8 = -7.8, squaredDiff = -7.8 * -7.8 = 60.84
+      i = 2, diff = 1 - 8.8 = -7.8, squaredDiff = -7.8 * -7.8 = 60.84
+      i = 3, diff = 2 - 8.8 = -6.8, squaredDiff = -6.8 * -6.8 = 46.24
+      i = 4, diff = 3 - 8.8 = -5.8, squaredDiff = -5.8 * -5.8 = 33.64
+      i = 5, diff = 5 - 8.8 = -3.8, squaredDiff = -3.8 * -3.8 = 14.44
+      i = 6, diff = 8 - 8.8 = -0.8, squaredDiff = -0.8 * -0.8 = 0.64
+      i = 7, diff = 13 - 8.8 = 4.2, squaredDiff = 4.2 * 4.2 = 17.64
+      i = 8, diff = 21 - 8.8 = 12.2, squaredDiff = 12.2 * 12.2 = 148.84
+      i = 9, diff = 34 - 8.8 = 25.2, squaredDiff = 25.2 * 25.2 = 635.04
+    squaredDiffs = [77.44, 60.84, 60.84, 46.24, 33.64, 14.44, 0.64, 17.64, 148.84, 635.04]
+    Calculating mean of squared differences:
+      sum = 0
+      i = 0, sum += 77.44, sum is now 77.44
+      i = 1, sum += 60.84, sum is now 138.28
+      i = 2, sum += 60.84, sum is now 199.12
+      i = 3, sum += 46.24, sum is now 245.36
+      i = 4, sum += 33.64, sum is now 279
+      i = 5, sum += 14.44, sum is now 293.44
+      i = 6, sum += 0.64, sum is now 294.08
+      i = 7, sum += 17.64, sum is now 311.72
+      i = 8, sum += 148.84, sum is now 460.56
+      i = 9, sum += 635.04, sum is now 1095.6
+      Returning 1095.6 / 10 = 109.56
+  fibVariance = 109.56
+
+Executing: log("Fibonacci Numbers: " + fibNumbers);
+Output: Fibonacci Numbers: 0,1,1,2,3,5,8,13,21,34
+
+Executing: log("Mean: " + fibMean);
+Output: Mean: 8.8
+
+Executing: log("Variance: " + fibVariance);
+Output: Variance: 109.56

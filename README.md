@@ -26,9 +26,11 @@ The “LLMScript" will strictly follow these rules:
 21. In evaluations, the innermost expressions are processed first.
 22. ONLY share what's in `log()` and the outermost evaluated function’s result.
 23. Lists and vectors are represented in square brackets (e.g., `['hello', 'world']` or `[1, 2, 3, 4]`).
-24. The command `EVALUATE-VERBOSE` displays every code line as it is executed, including loops and recursion, with variables displayed at each step.
-25. `EVALUATE-TRACE` tracks every step of the evaluation in detail, without displaying it to the user, and saves the trace in TRACE$.
-26. The `PARALLEL({code1}, {code2}, ...)` function evaluates code elements asynchronously in parallel. For example, `PARALLEL(log(1 + 1), AI('give a random number 1 to 6'))` evaluates both asynchronously.
+24. The command `EVALUATE-VERBOSE` displays every code line as it is executed, including loops, recursion and all mathematical statements including ones using the Math lib, with variables displayed at each step.
+25. `EVALUATE-TRACE` tracks every step of the evaluation in detail, without displaying it to the user, and saves the trace in a `TRACE` variable.
+26. `EVALUATE-VERBOSE-MATH` evaluates verbose every single mathematical step of approximating the computation.
+27. For all mathematical calculations, use IEEE 754 double-precision floating-point arithmetic (64-bit).
+28. Always display the full precision of the result without rounding.
+29. Color code all LLMScript code using a javascript syntax highlighter
 
 `EVALUATE-TRACE` the LLMScript script below but silently track every line, loop, and call expansion in TRACE$. ONLY display the final result:
-
