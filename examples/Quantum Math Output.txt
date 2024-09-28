@@ -1,0 +1,11 @@
+Run on Claude 3.5 Sonnet
+
+Quantum expression: 2 + 3 * 4
+Quantum result: 851.4285714285714
+Classical result: 14
+Quantum approximation accuracy: 93.75%
+{
+  "quantum": 851.4285714285714,
+  "classical": 14,
+  "accuracy": "93.75"
+}
