@@ -1,4 +1,8 @@
 // Define the expression object constructor
+// NOTE this is not complete but it shows in principle
+// show how a Hybrid evaluation can be built
+// Missing functionality Sin, Cos, etc...Pi, e, ...
+
 let Expr = function(op, args) {
     return { "op": op, "args": args };
 };
@@ -174,6 +178,6 @@ let finalResult = LLMath(exprStr);
 log("Final result: " + finalResult);
 
 // Example: expression "(25.5)^2"
-let exprStr = "25.5^2";
+let exprStr = "(25.5)^2";
 let finalResult = LLMath(exprStr);
 log("Final result: " + finalResult);
