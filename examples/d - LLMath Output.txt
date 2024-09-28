@@ -1,0 +1,9 @@
+// Example: expression "sqrt(2)^2 - 2"
+Parsed expression: ((sqrt(2))^2 - 2)
+Simplified expression: (2 - 2)
+Final result: 0
+
+// Example: expression "25.5^2"
+Parsed expression: (25.5)^2
+Simplified expression: (25.5)^2
+Final result: 650.25
