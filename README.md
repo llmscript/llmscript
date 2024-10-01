@@ -18,7 +18,6 @@ Please write a purpose here
     - [Custom Conversation](#custom-conversation)
       - [Example:](#example-1)
     - [Uploading Images](#uploading-images)
-  - [Available Examples](#available-examples)
   - [Logging](#logging)
   - [Available Options](#available-options)
   - [Environment Variables](#environment-variables)
@@ -63,16 +62,16 @@ To run a specific example:
 node cli.js run --example <example_name> --llm <llm_name>
 ```
 
-- Replace `<example_name>` with the name of the example file (e.g., `chain_of_thought`).
+- Replace `<example_name>` with the name of the example file (e.g., `1 - chain of thought`).
 - Replace `<llm_name>` with the name of the LLM you want to use (`gpt`, `claude`).
 
 #### Example:
 
 ```bash
-node cli.js run --example "chain_of_thought" --llm gpt
+node cli.js run --example "1 - chain of thought" --llm gpt
 ```
 
-This will run the "chain_of_thought" example with GPT.
+This will run the "1 - chain of thought" example with GPT.
 
 ### Custom Conversation
 
@@ -99,61 +98,6 @@ You can drag and drop an image into the terminal or input the file path to uploa
 
 - **To upload an image URL**:
     - Type or paste the image URL during the conversation (e.g., `https://example.com/image.png`).
-
----
-
-## Available Examples
-
-The following examples are included in the `examples` folder and can be run directly from the CLI:
-
-1. **Chain of Thought (`1 - chain of thought.js`)**
-   This script helps demonstrate how the LLM can chain thoughts and actions together in a structured reasoning process.
-
-   ```bash
-   node cli.js run --example "chain of thought" --llm gpt
-   ```
-
-2. **Tree of Thought (`2 - tree of thought.js`)**
-   Demonstrates a decision-making tree process using the LLM to explore different branches of reasoning.
-
-   ```bash
-   node cli.js run --example "tree of thought" --llm gpt
-   ```
-
-3. **Graph of Thought (`3 - graph of thought.js`)**
-   Executes a more complex graph traversal using the LLM, allowing for interconnected reasoning paths.
-
-   ```bash
-   node cli.js run --example "graph of thought" --llm gpt
-   ```
-
-4. **Soduko Solver (`A - Soduko.js`)**
-   This script helps solve a Sudoku puzzle using the LLM's reasoning capabilities.
-
-   ```bash
-   node cli.js run --example "Soduko" --llm gpt
-   ```
-
-5. **Complicated Math (`a - ComplicatedMath.js`)**
-   A math-focused example that challenges the LLM to solve complex mathematical problems.
-
-   ```bash
-   node cli.js run --example "ComplicatedMath" --llm gpt
-   ```
-
-6. **Solve 24 Puzzle (`C - Solve24Puzzle.js`)**
-   This example tackles solving the classic "24 puzzle," a math challenge where the goal is to use four numbers and basic arithmetic to reach 24.
-
-   ```bash
-   node cli.js run --example "Solve24Puzzle" --llm gpt
-   ```
-
-7. **Quantum Math (`e - QuantumMath.js`)**
-   This example delves into the realm of quantum mathematics, allowing the LLM to tackle highly complex equations.
-
-   ```bash
-   node cli.js run --example "QuantumMath" --llm gpt
-   ```
 
 ---
 
