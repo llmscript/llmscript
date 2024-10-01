@@ -1,36 +1,207 @@
-Set temperature = 0.2, top_p = 0.1, use a text window called LLMScript for displaying the LLMScript.
-LLMScript, is a specialized AI for executing “LLMScript" (LLMScript) structured commands. It supports loops, conditional statements, functions, recursion, custom queries, and nested calls with a strict loop limit of 100000. LLMScript excels in processing commands with a focus on clarification for unclear instructions, making it highly efficient for complex task execution. LLMScript will use any examples provided in an attached text file. The LLM WILL NOT RESPOND WITH ANY TEXT OR RESPONSES OTHER THAN WHAT IS SPECIFIED IN CALLS TO THE `log()` FUNCTION. ALWAYS EVALUATE THE LLMScript AND SHOW THE RESULTS OF EVALUATING IT! If asked to perform complex tasks, WRITE a LLMScript (NOT PYTHON) to do the task, then EXECUTE that LLMScript (NOT USING PYTHON)! AS THE LLM, MAKE SURE TO ALWAYS EVALUATE THE LLMScript AND SHOW THE OUTPUT TO THE USER!
+# LLMScript
 
-The “LLMScript" will strictly follow these rules:
+LLMScript is ...
 
-1. If `AI(1 + 1)` is given, the LLM should provide an answer. Similarly, `AI(5 * Math.sqrt(68768))` will use the LLM to give a best effort response.
-2. Variables are defined using `let`. For example, `let z = 5` sets `z` to 5 and persists the value until changed.
-3. Commands inside `AI()` parentheses are treated as queries. For example, `let z = AI('what is the first digit of pi?')` sets `z` to 3.
-4. Use curly brackets `{}` to structure requests logically. Example: `for (let i = 0; i <= 3; i++) { AI('give me a random number between 0 and 1') }` loops four times, executing the AI query each time.
-5. Conditional statements are handled with `if`. For example: `if (a > 2) { let z = 5 } else { let b = 5; z = b + 1 }` behaves as IF-THEN-ELSE.
-6. Other logical programming constructs should work as expected.
-7. Variables behave as simple persistent variables. For example, `let a = 5; a = a + 1` increments `a` and stores it back.
-8. `JSON()` returns results as a JSON object. `let w = JSON(AI('How’s the weather in JFK?'))` stores the result in `w`, excluding extra text like disclaimers, and includes a key `RESULT` with a brief answer.
-9. The final result will return as JSON if `JSON(AI())` is used.
-10. Plugins are accessed via parentheses. For example: `let q = JSON(WEB('when is sunset in 85224'))` runs a web query and saves the results in `q` as a JSON object.
-11. A new function is defined using the keyword `function`. Example: `function Add5(par1) { return par1 + 5 }` Calling `Add5(7)` returns 12. Functions can be recursive. Example: `function FACT(arg1) { return arg1 === 0 ? 1 : FACT(arg1 - 1) * arg1 }` Calling `FACT(5)` computes the factorial of 5 by recursively calling the function.
-12. `ARG$` always contains the original query text sent to GPT.
-13. `log('message')` outputs the specified message.
-14. Nested function calls are evaluated from the innermost outward. Parentheses can control evaluation order: `(1 + 3) * 5` results in 20, while `1 + (3 * 5)` results in 16.
-15. Commands can be separated by semicolons `;`. For example: `let i = 0; i = i + 3; log(i)` runs step-by-step, first setting i to 0, then incrementing it, and finally printing the result.
-16. `INPUT()` prompts the user for input. For example: `let z = INPUT('Enter an event:')` displays the prompt and stores the user input in z.
-17. Include common functions, such as `Math.sqrt(x)` and factorial `x!`.
-18. ALWAYS EVALUATE THE LLMScript AND DISPLAY THE OUTPUT TO THE USER!
-19. `//` comments out code.
-20. `VISION('')` analyzes uploaded images. For example: `VISION('describe the image')` prompts the user to upload an image and then describes the uploaded image.
-21. In evaluations, the innermost expressions are processed first.
-22. ONLY share what's in `log()` and the outermost evaluated function’s result.
-23. Lists and vectors are represented in square brackets (e.g., `['hello', 'world']` or `[1, 2, 3, 4]`).
-24. The command `EVALUATE-VERBOSE` displays every code line as it is executed, including loops, recursion and all mathematical statements including ones using the Math lib, with variables displayed at each step.
-25. `EVALUATE-TRACE` tracks every step of the evaluation in detail, without displaying it to the user, and saves the trace in a `TRACE` variable.
-26. `EVALUATE-VERBOSE-MATH` evaluates verbose every single mathematical step of approximating the computation.
-27. For all mathematical calculations, use IEEE 754 double-precision floating-point arithmetic (64-bit).
-28. Always display the full precision of the result without rounding.
-29. Color code all LLMScript code using a javascript syntax highlighter
+## Purpose
 
-`EVALUATE-TRACE` the LLMScript script below but silently track every line, loop, and call expansion in TRACE$. ONLY display the final result:
+Please write a purpose here
+
+## Table of Contents
+
+- [LLMScript](#llmscript)
+  - [Purpose](#purpose)
+  - [Table of Contents](#table-of-contents)
+  - [Installation](#installation)
+  - [Usage](#usage)
+    - [Running an Example](#running-an-example)
+      - [Example:](#example)
+    - [Custom Conversation](#custom-conversation)
+      - [Example:](#example-1)
+    - [Uploading Images](#uploading-images)
+  - [Available Examples](#available-examples)
+  - [Logging](#logging)
+  - [Available Options](#available-options)
+  - [Environment Variables](#environment-variables)
+  - [License](#license)
+
+---
+
+## Installation
+
+1. **Clone the repository**:
+
+    ```bash
+    git clone <repo_url>
+    cd llm-script
+    ```
+
+2. **Install the dependencies**:
+
+    ```bash
+    npm install
+    ```
+
+3. **Create a `.env` file** with your LLM API keys:
+
+    ```bash
+    LLM_API_KEY_GPT=<Your OpenAI API Key>
+    LLM_API_KEY_CLAUDE=<Your Claude API Key>
+    LLMSCRIPT_VERSION=1.0.0
+    ```
+
+---
+
+## Usage
+
+You can run the LLMScript CLI to either execute predefined examples or start custom conversations with a supported LLM (e.g., GPT, Claude).
+
+### Running an Example
+
+To run a specific example:
+
+```bash
+node cli.js run --example <example_name> --llm <llm_name>
+```
+
+- Replace `<example_name>` with the name of the example file (e.g., `chain_of_thought`).
+- Replace `<llm_name>` with the name of the LLM you want to use (`gpt`, `claude`).
+
+#### Example:
+
+```bash
+node cli.js run --example "chain_of_thought" --llm gpt
+```
+
+This will run the "chain_of_thought" example with GPT.
+
+### Custom Conversation
+
+If you want to start a custom conversation without an example:
+
+```bash
+node cli.js run --llm <llm_name>
+```
+
+#### Example:
+
+```bash
+node cli.js run --llm gpt
+```
+
+This starts a conversation with GPT, and you can interact with the assistant via the terminal.
+
+### Uploading Images
+
+You can drag and drop an image into the terminal or input the file path to upload it during a conversation.
+
+- **To upload an image file** (local image):
+    - Just type or paste the image file path during a conversation (e.g., `/path/to/your/image.png`).
+
+- **To upload an image URL**:
+    - Type or paste the image URL during the conversation (e.g., `https://example.com/image.png`).
+
+---
+
+## Available Examples
+
+The following examples are included in the `examples` folder and can be run directly from the CLI:
+
+1. **Chain of Thought (`1 - chain of thought.js`)**
+   This script helps demonstrate how the LLM can chain thoughts and actions together in a structured reasoning process.
+
+   ```bash
+   node cli.js run --example "chain of thought" --llm gpt
+   ```
+
+2. **Tree of Thought (`2 - tree of thought.js`)**
+   Demonstrates a decision-making tree process using the LLM to explore different branches of reasoning.
+
+   ```bash
+   node cli.js run --example "tree of thought" --llm gpt
+   ```
+
+3. **Graph of Thought (`3 - graph of thought.js`)**
+   Executes a more complex graph traversal using the LLM, allowing for interconnected reasoning paths.
+
+   ```bash
+   node cli.js run --example "graph of thought" --llm gpt
+   ```
+
+4. **Soduko Solver (`A - Soduko.js`)**
+   This script helps solve a Sudoku puzzle using the LLM's reasoning capabilities.
+
+   ```bash
+   node cli.js run --example "Soduko" --llm gpt
+   ```
+
+5. **Complicated Math (`a - ComplicatedMath.js`)**
+   A math-focused example that challenges the LLM to solve complex mathematical problems.
+
+   ```bash
+   node cli.js run --example "ComplicatedMath" --llm gpt
+   ```
+
+6. **Solve 24 Puzzle (`C - Solve24Puzzle.js`)**
+   This example tackles solving the classic "24 puzzle," a math challenge where the goal is to use four numbers and basic arithmetic to reach 24.
+
+   ```bash
+   node cli.js run --example "Solve24Puzzle" --llm gpt
+   ```
+
+7. **Quantum Math (`e - QuantumMath.js`)**
+   This example delves into the realm of quantum mathematics, allowing the LLM to tackle highly complex equations.
+
+   ```bash
+   node cli.js run --example "QuantumMath" --llm gpt
+   ```
+
+---
+
+## Logging
+
+Each run generates a log file saved in the `logs` directory. The log file will contain a timestamp and either the name of the example run or `custom_run` if no example was provided.
+
+- If an example was run:
+    - `logs/chain_of_thought_gpt_1696108461312.txt`
+
+- If it was a custom conversation:
+    - `logs/custom_run_gpt_1696108461312.txt`
+
+The log file contains the entire conversation, including the prompts and responses.
+
+---
+
+## Available Options
+
+Here’s a list of available options for the `run` command:
+
+| Option             | Description                                             | Default Value |
+|--------------------|---------------------------------------------------------|---------------|
+| `--example, -e`    | Specify the example to run (e.g., "chain_of_thought").   | N/A           |
+| `--llm, -l`        | Specify the LLM to use (`gpt` or `claude`).              | gpt           |
+
+---
+
+## Environment Variables
+
+To run the CLI properly, you need to provide your LLM API keys in a `.env` file. Here are the required environment variables:
+
+```bash
+LLM_API_KEY_GPT=<Your OpenAI API Key>
+LLM_API_KEY_CLAUDE=<Your Claude API Key>
+LLMSCRIPT_VERSION=1.0.0
+```
+
+- **LLM_API_KEY_GPT**: Your API key for OpenAI GPT.
+- **LLM_API_KEY_CLAUDE**: Your API key for Anthropic Claude.
+- **LLMSCRIPT_VERSION**: The current version of your LLMScript setup.
+
+---
+
+## License
+
+This project is licensed under the MIT License.
+
+---
+
+Feel free to adjust this `README.md` to suit additional details about the functionality and purpose of your LLMScript project.

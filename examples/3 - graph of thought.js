@@ -1,8 +1,7 @@
-// LLMScript: Graph of Thought for Vacation Planning
-
+// LLMScript Code: Graph of Thought for Vacation Planning Example
 function PlanVacation() {
   // Step 1: Select Vacation Type
-  log("Step 1: Choose the type of vacation...");
+  PRINT("Step 1: Choose the type of vacation...");
   let vacationTypes = [
     "Adventure",
     "Relaxation",
@@ -10,43 +9,42 @@ function PlanVacation() {
     "Family-Friendly",
     "Romantic Getaway",
   ];
-  log("Vacation Type options: " + vacationTypes);
+  for (let i = 0; i < vacationTypes.length; i++) {
+    PRINT(i + 1 + ". " + vacationTypes[i]);
+  }
 
   let chosenVacationType = INPUT("Choose your vacation type:");
-  log("Chosen vacation type: " + chosenVacationType);
+  PRINT("Chosen vacation type: " + chosenVacationType);
 
   // Step 2: Select Destination based on Vacation Type
-  log("Step 2: Finding destinations based on vacation type...");
-  let destinationOptions = PARALLEL(
-    AI("Suggest 5 adventure vacation destinations."),
-    AI("Suggest 5 relaxing vacation destinations."),
-    AI("Suggest 5 cultural exploration vacation destinations."),
-    AI("Suggest 5 family-friendly vacation destinations."),
-    AI("Suggest 5 romantic getaway vacation destinations.")
+  PRINT("Step 2: Finding destinations based on vacation type...");
+  let destinationOptions = AI(
+    `Suggest 5 ${chosenVacationType} vacation destinations.`
   );
-  log("Destination options: " + destinationOptions);
+  for (let i = 0; i < destinationOptions.length; i++) {
+    PRINT(i + 1 + ". " + destinationOptions[i]);
+  }
 
   let chosenDestination = INPUT("Choose your destination:");
-  log("Chosen destination: " + chosenDestination);
+  PRINT("Chosen destination: " + chosenDestination);
 
   // Step 3: Select Activities based on Destination
-  log("Step 3: Choosing activities at " + chosenDestination + "...");
-  let activityOptions = PARALLEL(
-    AI("Suggest 5 adventure activities at " + chosenDestination + "."),
-    AI("Suggest 5 relaxing activities at " + chosenDestination + "."),
-    AI("Suggest 5 cultural activities at " + chosenDestination + "."),
-    AI("Suggest 5 family-friendly activities at " + chosenDestination + "."),
-    AI("Suggest 5 romantic activities at " + chosenDestination + ".")
+  PRINT("Step 3: Choosing activities at " + chosenDestination + "...");
+  let activityOptions = AI(
+    "Suggest 5 adventure activities at " + chosenDestination + "."
   );
-  log("Activity options: " + activityOptions);
+
+  for (let i = 0; i < activityOptions.length; i++) {
+    PRINT(i + 1 + ". " + activityOptions[i]);
+  }
 
   let chosenActivities = INPUT("Choose your activities (select multiple):");
-  log("Chosen activities: " + chosenActivities);
+  PRINT("Chosen activities: " + chosenActivities);
 
   // Step 4: Set Budget and Calculate Costs for Destination and Activities
-  log("Step 4: Set your total budget...");
+  PRINT("Step 4: Set your total budget...");
   let totalBudget = INPUT("Enter your total vacation budget (in USD):");
-  log("Total Budget: $" + totalBudget);
+  PRINT("Total Budget: $" + totalBudget);
 
   // Estimate cost for destination and activities
   let destinationCost = AI(
@@ -61,29 +59,29 @@ function PlanVacation() {
   );
 
   let totalCost = parseFloat(destinationCost) + parseFloat(activitiesCost);
-  log("Estimated total cost for destination and activities: $" + totalCost);
+  PRINT("Estimated total cost for destination and activities: $" + totalCost);
 
   // Check if the total cost exceeds the budget
   if (totalCost > totalBudget) {
-    log(
+    PRINT(
       "Warning: The total cost exceeds your budget by $" +
         (totalCost - totalBudget) +
         "."
     );
-    log(
+    PRINT(
       "You may need to adjust your destination or activities to fit within your budget."
     );
   } else {
-    log("You are within your budget.");
+    PRINT("You are within your budget.");
   }
 
   // Step 5: Set Duration based on Destination
-  log("Step 5: Choosing the duration of your stay...");
+  PRINT("Step 5: Choosing the duration of your stay...");
   let durationOptions = ["3 days", "5 days", "7 days", "10 days", "14 days"];
-  log("Duration options: " + durationOptions);
+  PRINT("Duration options: " + durationOptions);
 
   let chosenDuration = INPUT("Choose the duration of your stay:");
-  log("Chosen duration: " + chosenDuration);
+  PRINT("Chosen duration: " + chosenDuration);
 
   // Recalculate budget based on duration (longer trips may increase costs)
   let adjustedCost = AI(
@@ -93,11 +91,13 @@ function PlanVacation() {
       chosenDuration +
       "."
   );
-  log("Adjusted total cost for " + chosenDuration + " stay: $" + adjustedCost);
+  PRINT(
+    "Adjusted total cost for " + chosenDuration + " stay: $" + adjustedCost
+  );
 
   // Final Budget Check
   if (adjustedCost > totalBudget) {
-    log(
+    PRINT(
       "Warning: The total cost for " +
         chosenDuration +
         " exceeds your budget by $" +
@@ -105,17 +105,17 @@ function PlanVacation() {
         ". You may need to reduce your trip duration or change activities."
     );
   } else {
-    log("You are within your budget with the adjusted duration.");
+    PRINT("You are within your budget with the adjusted duration.");
   }
 
   // Final Itinerary and Itemized Budget
-  log("Final Vacation Itinerary:");
-  log("Vacation Type: " + chosenVacationType);
-  log("Destination: " + chosenDestination);
-  log("Activities: " + chosenActivities);
-  log("Duration: " + chosenDuration);
-  log("Total Estimated Cost: $" + adjustedCost);
-  log(
+  PRINT("Final Vacation Itinerary:");
+  PRINT("Vacation Type: " + chosenVacationType);
+  PRINT("Destination: " + chosenDestination);
+  PRINT("Activities: " + chosenActivities);
+  PRINT("Duration: " + chosenDuration);
+  PRINT("Total Estimated Cost: $" + adjustedCost);
+  PRINT(
     "Itemized Budget: Destination: $" +
       destinationCost +
       ", Activities: $" +

@@ -1,0 +1,46 @@
+{
+  "name": "llm-script",
+  "version": "1.0.0",
+  "description": "LLM-Script is a lightweight, domain-specific scripting language designed for executing commands within large language models (LLMs). It enables recursive functions, advanced mathematical operations, conditional logic, and external queries, simplifying the process of handling complex tasks through scriptable AI execution.",
+  "main": "cli.js",
+  "type": "module",
+  "scripts": {
+    "start": "node cli.js",
+    "test": "mocha testRunner.test.js --timeout 10000"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/personl-ai/llm-script.git"
+  },
+  "keywords": [
+    "llm",
+    "scripting",
+    "ai",
+    "language-models",
+    "domain-specific-language",
+    "script",
+    "function",
+    "recursive",
+    "automation"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/personl-ai/llm-script/issues"
+  },
+  "homepage": "https://github.com/personl-ai/llm-script#readme",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.27.3",
+    "axios": "^1.7.7",
+    "chalk": "^5.3.0",
+    "commander": "^12.1.0",
+    "dotenv": "^16.4.5",
+    "form-data": "^4.0.0",
+    "fs": "^0.0.1-security",
+    "openai": "^4.66.1"
+  },
+  "devDependencies": {
+    "chai": "^5.1.1",
+    "mocha": "^10.7.3"
+  }
+}

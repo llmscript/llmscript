@@ -46,3 +46,7 @@ let fibVariance = variance(fibNumbers);
 log("Fibonacci Numbers: " + fibNumbers);
 log("Mean: " + fibMean);
 log("Variance: " + fibVariance);
+
+-----------------
+
+EVALUATE_VERBOSE

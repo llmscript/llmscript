@@ -5,164 +5,177 @@
 // show how a Hybrid evaluation can be built
 // Missing functionality Sin, Cos, etc...Pi, e, ...
 
-let Expr = function(op, args) {
-    return { "op": op, "args": args };
+let Expr = function (op, args) {
+  return { op: op, args: args };
 };
 
 // Function to print the expression as a string
 function PrintExpr(expr) {
-    if (expr.op === 'num') {
-        return expr.args[0];
-    }
-    if (expr.op === 'var') {
-        return expr.args[0];
-    }
-    if (expr.op === 'sqrt') {
-        return "sqrt(" + PrintExpr(expr.args[0]) + ")";
-    }
-    if (expr.op === 'pow') {
-        return "(" + PrintExpr(expr.args[0]) + ")^" + PrintExpr(expr.args[1]);
-    }
-    if (expr.op === 'add') {
-        return "(" + PrintExpr(expr.args[0]) + " + " + PrintExpr(expr.args[1]) + ")";
-    }
-    if (expr.op === 'subtract') {
-        return "(" + PrintExpr(expr.args[0]) + " - " + PrintExpr(expr.args[1]) + ")";
-    }
-    if (expr.op === 'multiply') {
-        return "(" + PrintExpr(expr.args[0]) + " * " + PrintExpr(expr.args[1]) + ")";
-    }
-    if (expr.op === 'divide') {
-        return "(" + PrintExpr(expr.args[0]) + " / " + PrintExpr(expr.args[1]) + ")";
-    }
-    return "";
+  if (expr.op === "num") {
+    return expr.args[0];
+  }
+  if (expr.op === "var") {
+    return expr.args[0];
+  }
+  if (expr.op === "sqrt") {
+    return "sqrt(" + PrintExpr(expr.args[0]) + ")";
+  }
+  if (expr.op === "pow") {
+    return "(" + PrintExpr(expr.args[0]) + ")^" + PrintExpr(expr.args[1]);
+  }
+  if (expr.op === "add") {
+    return (
+      "(" + PrintExpr(expr.args[0]) + " + " + PrintExpr(expr.args[1]) + ")"
+    );
+  }
+  if (expr.op === "subtract") {
+    return (
+      "(" + PrintExpr(expr.args[0]) + " - " + PrintExpr(expr.args[1]) + ")"
+    );
+  }
+  if (expr.op === "multiply") {
+    return (
+      "(" + PrintExpr(expr.args[0]) + " * " + PrintExpr(expr.args[1]) + ")"
+    );
+  }
+  if (expr.op === "divide") {
+    return (
+      "(" + PrintExpr(expr.args[0]) + " / " + PrintExpr(expr.args[1]) + ")"
+    );
+  }
+  return "";
 }
 
 // Simplify symbolic expressions
 function SimplifyExpr(expr) {
-    if (expr.op === 'pow' && expr.args[1].op === 'num' && expr.args[1].args[0] === 2) {
-        if (expr.args[0].op === 'sqrt') {
-            return SimplifyExpr(expr.args[0].args[0]);  // sqrt(x)^2 -> x
-        }
+  if (
+    expr.op === "pow" &&
+    expr.args[1].op === "num" &&
+    expr.args[1].args[0] === 2
+  ) {
+    if (expr.args[0].op === "sqrt") {
+      return SimplifyExpr(expr.args[0].args[0]); // sqrt(x)^2 -> x
     }
-    if (expr.op === 'add') {
-        let left = SimplifyExpr(expr.args[0]);
-        let right = SimplifyExpr(expr.args[1]);
-        if (left.op === 'num' && right.op === 'num') {
-            return Expr('num', [left.args[0] + right.args[0]]);
-        }
-        return Expr('add', [left, right]);
+  }
+  if (expr.op === "add") {
+    let left = SimplifyExpr(expr.args[0]);
+    let right = SimplifyExpr(expr.args[1]);
+    if (left.op === "num" && right.op === "num") {
+      return Expr("num", [left.args[0] + right.args[0]]);
     }
-    if (expr.op === 'subtract') {
-        let left = SimplifyExpr(expr.args[0]);
-        let right = SimplifyExpr(expr.args[1]);
-        if (left.op === 'num' && right.op === 'num') {
-            return Expr('num', [left.args[0] - right.args[0]]);
-        }
-        return Expr('subtract', [left, right]);
+    return Expr("add", [left, right]);
+  }
+  if (expr.op === "subtract") {
+    let left = SimplifyExpr(expr.args[0]);
+    let right = SimplifyExpr(expr.args[1]);
+    if (left.op === "num" && right.op === "num") {
+      return Expr("num", [left.args[0] - right.args[0]]);
     }
-    if (expr.op === 'multiply') {
-        let left = SimplifyExpr(expr.args[0]);
-        let right = SimplifyExpr(expr.args[1]);
-        if (left.op === 'num' && right.op === 'num') {
-            return Expr('num', [left.args[0] * right.args[0]]);
-        }
-        return Expr('multiply', [left, right]);
+    return Expr("subtract", [left, right]);
+  }
+  if (expr.op === "multiply") {
+    let left = SimplifyExpr(expr.args[0]);
+    let right = SimplifyExpr(expr.args[1]);
+    if (left.op === "num" && right.op === "num") {
+      return Expr("num", [left.args[0] * right.args[0]]);
     }
-    if (expr.op === 'divide') {
-        let left = SimplifyExpr(expr.args[0]);
-        let right = SimplifyExpr(expr.args[1]);
-        if (left.op === 'num' && right.op === 'num') {
-            return Expr('num', [left.args[0] / right.args[0]]);
-        }
-        return Expr('divide', [left, right]);
+    return Expr("multiply", [left, right]);
+  }
+  if (expr.op === "divide") {
+    let left = SimplifyExpr(expr.args[0]);
+    let right = SimplifyExpr(expr.args[1]);
+    if (left.op === "num" && right.op === "num") {
+      return Expr("num", [left.args[0] / right.args[0]]);
     }
-    return expr;
+    return Expr("divide", [left, right]);
+  }
+  return expr;
 }
 
 // Evaluate the symbolic expression into a real number
 function EvalExpr(expr) {
-    if (expr.op === 'num') {
-        return expr.args[0];
-    }
-    if (expr.op === 'sqrt') {
-        return Math.sqrt(EvalExpr(expr.args[0]));
-    }
-    if (expr.op === 'pow') {
-        return Math.pow(EvalExpr(expr.args[0]), EvalExpr(expr.args[1]));
-    }
-    if (expr.op === 'add') {
-        return EvalExpr(expr.args[0]) + EvalExpr(expr.args[1]);
-    }
-    if (expr.op === 'subtract') {
-        return EvalExpr(expr.args[0]) - EvalExpr(expr.args[1]);
-    }
-    if (expr.op === 'multiply') {
-        return EvalExpr(expr.args[0]) * EvalExpr(expr.args[1]);
-    }
-    if (expr.op === 'divide') {
-        return EvalExpr(expr.args[0]) / EvalExpr(expr.args[1]);
-    }
-    return 0;
+  if (expr.op === "num") {
+    return expr.args[0];
+  }
+  if (expr.op === "sqrt") {
+    return Math.sqrt(EvalExpr(expr.args[0]));
+  }
+  if (expr.op === "pow") {
+    return Math.pow(EvalExpr(expr.args[0]), EvalExpr(expr.args[1]));
+  }
+  if (expr.op === "add") {
+    return EvalExpr(expr.args[0]) + EvalExpr(expr.args[1]);
+  }
+  if (expr.op === "subtract") {
+    return EvalExpr(expr.args[0]) - EvalExpr(expr.args[1]);
+  }
+  if (expr.op === "multiply") {
+    return EvalExpr(expr.args[0]) * EvalExpr(expr.args[1]);
+  }
+  if (expr.op === "divide") {
+    return EvalExpr(expr.args[0]) / EvalExpr(expr.args[1]);
+  }
+  return 0;
 }
 
 // Parse a string like "sqrt(2)^2 - 2" into a symbolic expression
 function ParseExpr(exprStr) {
-    // Tokenization (splits the expression into meaningful tokens)
-    let tokens = exprStr.replace(/\s+/g, '').match(/(\d+|\w+|\(|\)|\+|\-|\*|\/|\^)/g);
+  // Tokenization (splits the expression into meaningful tokens)
+  let tokens = exprStr
+    .replace(/\s+/g, "")
+    .match(/(\d+|\w+|\(|\)|\+|\-|\*|\/|\^)/g);
 
-    function parsePrimary() {
-        let token = tokens.shift();
-        if (token === '(') {
-            let expr = parseAddSubtract();  // Parentheses: (expr)
-            tokens.shift();  // Remove closing ')'
-            return expr;
-        } else if (/\d+/.test(token)) {
-            return Expr('num', [parseFloat(token)]);
-        } else if (token === 'sqrt') {
-            tokens.shift();  // Skip '(' after 'sqrt'
-            let expr = parsePrimary();
-            tokens.shift();  // Skip ')'
-            return Expr('sqrt', [expr]);
-        }
-        return null;
+  function parsePrimary() {
+    let token = tokens.shift();
+    if (token === "(") {
+      let expr = parseAddSubtract(); // Parentheses: (expr)
+      tokens.shift(); // Remove closing ')'
+      return expr;
+    } else if (/\d+/.test(token)) {
+      return Expr("num", [parseFloat(token)]);
+    } else if (token === "sqrt") {
+      tokens.shift(); // Skip '(' after 'sqrt'
+      let expr = parsePrimary();
+      tokens.shift(); // Skip ')'
+      return Expr("sqrt", [expr]);
     }
+    return null;
+  }
 
-    function parseExponent() {
-        let expr = parsePrimary();
-        while (tokens.length > 0 && tokens[0] === '^') {
-            tokens.shift();  // Consume '^'
-            let right = parsePrimary();
-            expr = Expr('pow', [expr, right]);
-        }
-        return expr;
+  function parseExponent() {
+    let expr = parsePrimary();
+    while (tokens.length > 0 && tokens[0] === "^") {
+      tokens.shift(); // Consume '^'
+      let right = parsePrimary();
+      expr = Expr("pow", [expr, right]);
     }
+    return expr;
+  }
 
-    function parseMultiplyDivide() {
-        let expr = parseExponent();
-        while (tokens.length > 0 && (tokens[0] === '*' || tokens[0] === '/')) {
-            let op = tokens.shift();  // Consume '*' or '/'
-            let right = parseExponent();
-            expr = Expr(op === '*' ? 'multiply' : 'divide', [expr, right]);
-        }
-        return expr;
+  function parseMultiplyDivide() {
+    let expr = parseExponent();
+    while (tokens.length > 0 && (tokens[0] === "*" || tokens[0] === "/")) {
+      let op = tokens.shift(); // Consume '*' or '/'
+      let right = parseExponent();
+      expr = Expr(op === "*" ? "multiply" : "divide", [expr, right]);
     }
+    return expr;
+  }
 
-    function parseAddSubtract() {
-        let expr = parseMultiplyDivide();
-        while (tokens.length > 0 && (tokens[0] === '+' || tokens[0] === '-')) {
-            let op = tokens.shift();  // Consume '+' or '-'
-            let right = parseMultiplyDivide();
-            expr = Expr(op === '+' ? 'add' : 'subtract', [expr, right]);
-        }
-        return expr;
+  function parseAddSubtract() {
+    let expr = parseMultiplyDivide();
+    while (tokens.length > 0 && (tokens[0] === "+" || tokens[0] === "-")) {
+      let op = tokens.shift(); // Consume '+' or '-'
+      let right = parseMultiplyDivide();
+      expr = Expr(op === "+" ? "add" : "subtract", [expr, right]);
     }
+    return expr;
+  }
 
-    return parseAddSubtract();
+  return parseAddSubtract();
 }
 
 function LLMath(exprStr) {
-
   let parsedExpr = ParseExpr(exprStr);
   log("Parsed expression: " + PrintExpr(parsedExpr));
   let simplifiedExpr = SimplifyExpr(parsedExpr);
@@ -179,7 +192,7 @@ let exprStr = "sqrt(2)^2 - 2";
 let finalResult = LLMath(exprStr);
 log("Final result: " + finalResult);
 
-// Example: expression "(25.5)^2"
-let exprStr = "(25.5)^2";
+// Example: expression "(13225.5)^2"
+let exprStr = "(13225.5)^2";
 let finalResult = LLMath(exprStr);
 log("Final result: " + finalResult);
