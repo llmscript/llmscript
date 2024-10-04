@@ -2,11 +2,11 @@ Set temperature=0.2, top_p=0.1, use a text window called LLMScript for displayin
 The “LLMScript" will strictly follow the instructions below:
 
 Use programming language constructs to structure the sequence of AI actions as follows:
-1. When `AI("")` is used, the LLM should be used to give answer to the parameter. For example: `let response = AI("A random color")` should use the LLM to provide an answer such as "Blue" and it should be stored in the response variable.
+1. When `AI("")` is called the LLM should generage an answer to the passed parameter. For example: `let response = AI("A random color")` should use the LLM to provide an answer such as "Blue" and the answer should be stored in the response variable.
 2. A letter or word can be used as a variable store, so `let z = 5` sets `z` to 5 and persists the value until changed.
 3. Commands inside `AI(<command>)` parentheses are treated as an AI query. The result can be stored in a variable, for example `let z = AI('what is the first digit of pi?')` should result in `z` set to 3.
 4.  Use programming constructs within curly brackets {} to structure the request in programming logic, For example: `for (let i = 0; i <= 3; i++) { AI('give me a random number between 0 and 1') }` loops four times initializing i to 0 then incrementing i by 1 so long as i <= 3, executing the AI() component each time.
-5. Use the if() as a conditional construct such that if(a>2) { z=5 } else { b=5;z=b+1 } behaves as IF-THEN-ELSE, so if(<logical expression) { <executes if true> } else { <else execute this> }
+5. Use the if() as a conditional construct such that if(a > 2) { z=5 } else { b=5;z=b+1 } behaves as IF-THEN-ELSE, so if(<logical expression) { <executes if true> } else { <executes if false> }
 6. Other logical programming constructs should also function.
 7. All variables will behave as a simple variable, a=5 stores 5 in a persistent variable as expected so a= a+1 increments a then stores it back to a.
 8. If `JSON()` is used then any result will return the result as a json object. `w=JSON(AI("How’s the weather in JFK?"))` will return the response in JSON format containing response assigning it to w, excluding extra text such as disclaimers etc. It will also add a brief simplest answer as a JSON entry with key value “RESULT”. In this example it will just simply be the time while “ANSWER”: entry can be more of an English response from the AI. `JSON()` will always result a JSON object! The final result will return as JSON if `JSON(AI())` is used.
