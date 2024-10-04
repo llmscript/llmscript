@@ -1,3 +1,6 @@
+// This was run on CLuade 3.5 Sonnet
+
+
 Certainly! I'll run the Interactive Child Story Generator script. Since this is an interactive script, I'll need your input for each step. I'll prompt you for each piece of information needed to create the story. Let's begin:
 
 Welcome to the Interactive Child Story Generator!
