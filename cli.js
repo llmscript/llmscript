@@ -1,4 +1,3 @@
-// cli.js
 import { Command } from "commander";
 import fs from "fs";
 import path from "path";
@@ -8,6 +7,10 @@ import {
   runOpenAIConversation,
   resetConversation as resetOpenAIConversation,
 } from "./llms/openai.js";
+import {
+  runClaudeConversation,
+  resetConversation as resetClaudeConversation,
+} from "./llms/claude.js";
 import dotenv from "dotenv";
 import chalk from "chalk";
 
@@ -25,6 +28,7 @@ if (!fs.existsSync(logsDir)) {
 // Function to detect if a message is code or plain text and apply colorization
 function colorizeOutput(message) {
   const codeBlockPattern = /```(.*?)```/gs;
+
   const codeSnippets = message.match(codeBlockPattern);
 
   if (codeSnippets) {
@@ -40,6 +44,7 @@ function colorizeOutput(message) {
 
   return message;
 }
+
 // Function to detect if input is an image file path or URL
 function isImageFile(filePath) {
   const fileExtension = path.extname(filePath).toLowerCase();
@@ -90,9 +95,6 @@ async function startConversation(
 
   // Prepare the initial message (LLMScript prompt + optional example script)
   let initialMessage = initialPrompt;
-  // if (exampleScript) {
-  //   initialMessage += `\n\n----------\n\n${exampleScript}`;
-  // }
 
   // Append the initial prompt to the log
   appendToLog(logFilePath, initialMessage, "user");
@@ -104,6 +106,9 @@ async function startConversation(
   if (llmName === "gpt") {
     resetOpenAIConversation(); // Reset the conversation context
     response = await runOpenAIConversation(userMessage);
+  } else if (llmName === "claude") {
+    resetClaudeConversation(); // Reset the conversation context
+    response = await runClaudeConversation(userMessage);
   }
 
   console.log("\n");
@@ -114,6 +119,9 @@ async function startConversation(
   if (llmName === "gpt") {
     appendToLog(logFilePath, exampleScript, "user");
     response = await runOpenAIConversation(exampleScript);
+  } else if (llmName === "claude") {
+    appendToLog(logFilePath, exampleScript, "user");
+    response = await runClaudeConversation(exampleScript);
   }
 
   console.log("\n");
@@ -132,7 +140,11 @@ async function startConversation(
       console.log(chalk.green("Detected an image URL. Uploading..."));
       appendToLog(logFilePath, userMessage, "user");
 
-      response = await runOpenAIConversation("", userMessage, true); // Send image URL to OpenAI
+      if (llmName === "gpt") {
+        response = await runOpenAIConversation("", userMessage, true); // Send image URL to OpenAI
+      } else if (llmName === "claude") {
+        response = await runClaudeConversation("", userMessage, true); // Send image URL to Claude
+      }
 
       console.log("\n");
       console.log(chalk.bold("Assistant:"));
@@ -145,7 +157,11 @@ async function startConversation(
       const cleanedImagePath = cleanFilePath(userMessage);
       appendToLog(logFilePath, cleanedImagePath, "user");
 
-      response = await runOpenAIConversation("", cleanedImagePath, false); // Send local image to OpenAI
+      if (llmName === "gpt") {
+        response = await runOpenAIConversation("", cleanedImagePath, false); // Send local image to OpenAI
+      } else if (llmName === "claude") {
+        response = await runClaudeConversation("", cleanedImagePath, false); // Send local image to Claude
+      }
 
       console.log("\n");
       console.log(chalk.bold("Assistant:"));
@@ -156,6 +172,8 @@ async function startConversation(
 
       if (llmName === "gpt") {
         response = await runOpenAIConversation(userMessage);
+      } else if (llmName === "claude") {
+        response = await runClaudeConversation(userMessage);
       }
 
       console.log("\n");
@@ -178,7 +196,7 @@ program
   .option("-l, --llm <name>", "Specify the LLM to use (gpt, claude)", "gpt")
   .option("-e, --example <name>", "Run a specific example by name")
   .action((options) => {
-    const llmScriptPrompt = fs.readFileSync("LLMScript.md", "utf8");
+    const llmScriptPrompt = fs.readFileSync("LLMScript-new.md", "utf8");
     let exampleScript = null;
     let exampleName = null;
 
@@ -195,9 +213,6 @@ program
         ${fs.readFileSync(examplePath, "utf8")}
         // --------------- END OF LLMScript CODE ---------------
 
-        DO NOT respond with code.
-        DO NOT respond with "Please enter your LLMScript code and I will execute it."
-        DO NOT prompt for a response when AI calls are made.
         LLMScript Execution Output:
         `;
         exampleName = options.example; // Capture the example name for the log file
