@@ -213,6 +213,10 @@ program
         ${fs.readFileSync(examplePath, "utf8")}
         // --------------- END OF LLMScript CODE ---------------
 
+        DO NOT respond with code.
+        DO NOT respond with "Please enter your LLMScript code and I will execute it."
+        DO NOT prompt for a response when AI calls are made.
+
         LLMScript Execution Output:
         `;
         exampleName = options.example; // Capture the example name for the log file
