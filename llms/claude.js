@@ -17,13 +17,33 @@ function encodeImageToBase64(imagePath) {
   return imageBuffer.toString("base64");
 }
 
+function getMediaType(imagePath) {
+  const extension = path.extname(imagePath).toLowerCase();
+  switch (extension) {
+    case ".png":
+      return "image/png";
+    case ".jpg":
+    case ".jpeg":
+      return "image/jpeg";
+    case ".gif":
+      return "image/gif";
+    case ".webp":
+      return "image/webp";
+    default:
+      throw new Error(`Unsupported image type: ${extension}`);
+  }
+}
+
 export async function runClaudeConversation(
   inputMessage,
   imagePath = null,
   isImageUrl = false
 ) {
   try {
-    let content = [{ type: "text", text: inputMessage }];
+    console.log("Input message:", inputMessage);
+    let content = imagePath
+      ? [{ type: "text", text: "Here is my image" }]
+      : [{ type: "text", text: inputMessage }];
 
     if (imagePath) {
       if (isImageUrl) {
@@ -36,11 +56,12 @@ export async function runClaudeConversation(
         });
       } else {
         const base64Image = encodeImageToBase64(imagePath);
+        const mediaType = getMediaType(imagePath);
         content.push({
           type: "image",
           source: {
             type: "base64",
-            media_type: "image/jpeg",
+            media_type: mediaType,
             data: base64Image,
           },
         });

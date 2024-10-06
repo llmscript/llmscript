@@ -80,7 +80,8 @@ async function startConversation(
   llmName,
   initialPrompt,
   exampleScript = null,
-  exampleName = null
+  exampleName = null,
+  isDebugMode = false
 ) {
   // Generate the log file name based on whether an example was provided
   const examplePart = exampleName ? exampleName : "custom_run";
@@ -195,6 +196,7 @@ program
   .description("Start a conversation with the AI")
   .option("-l, --llm <name>", "Specify the LLM to use (gpt, claude)", "gpt")
   .option("-e, --example <name>", "Run a specific example by name")
+  .option("-d, --debug", "Run in debug mode")
   .action((options) => {
     const llmScriptPrompt = fs.readFileSync("LLMScript-new.md", "utf8");
     let exampleScript = null;
@@ -208,7 +210,7 @@ program
         `${options.example}.js`
       );
       if (fs.existsSync(examplePath)) {
-        exampleScript = `
+        exampleScript = `setDebugMode(${options.debug ? "true" : "false"});\n\n
         // --------------- BEGINNING OF LLMScript CODE ---------------
         ${fs.readFileSync(examplePath, "utf8")}
         // --------------- END OF LLMScript CODE ---------------
@@ -216,6 +218,8 @@ program
         DO NOT respond with code.
         DO NOT respond with "Please enter your LLMScript code and I will execute it."
         DO NOT prompt for a response when AI calls are made.
+        MAKE SURE to render output in non json formats when not in debug mode and in the json format when in debug mode.
+        MAKE SURE to handle all prompt inputs individually one by one.
 
         LLMScript Execution Output:
         `;
@@ -227,7 +231,13 @@ program
     }
 
     // Begin a conversation with the selected LLM (with or without the example script)
-    startConversation(options.llm, llmScriptPrompt, exampleScript, exampleName);
+    startConversation(
+      options.llm,
+      llmScriptPrompt,
+      exampleScript,
+      exampleName,
+      options.debug
+    );
   });
 
 program.parse(process.argv);

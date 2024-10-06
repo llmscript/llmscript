@@ -1,6 +1,5 @@
 // This was run on CLuade 3.5 Sonnet
 
-
 Certainly! I'll run the Interactive Child Story Generator script. Since this is an interactive script, I'll need your input for each step. I'll prompt you for each piece of information needed to create the story. Let's begin:
 
 Welcome to the Interactive Child Story Generator!
@@ -77,7 +76,7 @@ Commission an artist to create an illustration
 Use an image generation AI tool (though please note that I am not one of these tools)
 
 For the purposes of our story, we can imagine Theo as a curious 3-year-old boy with wide, wondering eyes and perhaps tousled hair to represent his adventurous nature. His appearance can be left somewhat to the imagination of the reader, which is often part of the magic of storytelling for young children.
-Is there anything else about the story or Theo's character that you'd like to discuss or elaborate on? 
+Is there anything else about the story or Theo's character that you'd like to discuss or elaborate on?
 
 <UPLOADED IMAGE OF THEO>
 <img width="160" alt="image" src="https://github.com/user-attachments/assets/b94fd517-3e1a-406d-9147-953e09449ae4">
