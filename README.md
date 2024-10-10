@@ -145,7 +145,3 @@ LLMSCRIPT_VERSION=1.0.0
 ## License
 
 This project is licensed under the MIT License.
-
----
-
-Feel free to adjust this `README.md` to suit additional details about the functionality and purpose of your LLMScript project.
