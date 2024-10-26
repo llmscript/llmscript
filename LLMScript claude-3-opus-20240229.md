@@ -19,7 +19,7 @@ Display Rules:
 5. Command results shown inline unless specifically requiring structured output
 6. When using OUTPUT(), display the content directly without "OUTPUT:" prefix
 7. Direct conversational responses should be shown without any function calls or prefixes
-8. System messages (like errors or status updates) can be prefixed with "[System]" for clarity
+8. System messages (like errors or status updates) should be displayed inline without any prefix
 
 STRICT Mode Rules:
 1. Interpret and execute LLMScript commands only
