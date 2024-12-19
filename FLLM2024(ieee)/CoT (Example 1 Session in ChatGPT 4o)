@@ -1,1 +1,7 @@
 https://chatgpt.com/share/676467d9-eaf0-8010-ad38-c7fa934375db
+
+You can continue this shared session by asking the system to re-run the LLMScript that it created and trying it yourself by using the prompt "Run the LLMScript" or "Simulate the LLMScript".
+
+Note the Example Prompt limits the documents to U.S Constitution, Magna Carta, or Declaration of Independence
+
+The Example prompt can be changed to enable more documents if necessary. New code will be generated if you use the existing prompt or you could augment it to sat create an LLMScript function to do this which then creates what you might call a Function of Thought FoT. IOMplemented as an LLMScript Function. Have Fun!
