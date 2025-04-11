@@ -8,7 +8,7 @@ Shahin Mowzoon, Mishkin Faustini
 2024 2nd International Conference on Foundation and Large Language Models (FLLM)
 Published paper: https://ieeexplore.ieee.org/document/10852477
 
-For questions, comments, or to request a copy of the original research paper, please contact: mishkin@personl.ai
+For questions, comments, please contact: mishkin@personl.ai
 
 ## Core Definition
 
