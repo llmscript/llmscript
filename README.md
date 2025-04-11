@@ -1,146 +1,104 @@
 # LLMScript
 
-LLMScript is ...
+LLMScript is an AI Workflow engine driven by a Scripting Language based on JavaScript. It provides a specialized environment for executing structured commands with AI capabilities, supporting loops, conditional statements, functions, custom queries, recursion, and nested calls.
 
-## Purpose
+This work was originally presented in:
+"Introducing LLMScript: A Turing Complete Prompt Based Scripting Language for LLMs with No External Coding Required"
+Shahin Mowzoon, Mishkin Faustini
+2024 2nd International Conference on Foundation and Large Language Models (FLLM)
+Published paper: https://ieeexplore.ieee.org/document/10852477
 
-Please write a purpose here
+For questions, comments, or to request a copy of the original research paper, please contact: mishkin@personl.ai
 
-## Table of Contents
+## Core Definition
 
-- [LLMScript](#llmscript)
-  - [Purpose](#purpose)
-  - [Table of Contents](#table-of-contents)
-  - [Installation](#installation)
-  - [Usage](#usage)
-    - [Running an Example](#running-an-example)
-      - [Example:](#example)
-    - [Custom Conversation](#custom-conversation)
-      - [Example:](#example-1)
-    - [Uploading Images](#uploading-images)
-  - [Logging](#logging)
-  - [Available Options](#available-options)
-  - [Environment Variables](#environment-variables)
-  - [License](#license)
+LLMScript is a Turing complete scripting language that runs entirely inside the LLM with no external coding required. It enables the creation of AI-driven workflows that can:
+- Execute complex reasoning chains
+- Make decisions using iterative workflows
+- Integrate Chain of Thought (CoT), Tree of Thought (ToT), and Graph of Thought (GoT) reasoning
+- Create dynamic, interactive AI solutions
 
----
+## Getting Started
 
-## Installation
+To use LLMScript, simply copy the following definition into your preferred LLM (like Claude or ChatGPT) and start creating AI workflows. The language can be adapted to work with any programming language or syntax - this is just one example implementation.
 
-1. **Clone the repository**:
-
-    ```bash
-    git clone <repo_url>
-    cd llm-script
-    ```
-
-2. **Install the dependencies**:
-
-    ```bash
-    npm install
-    ```
-
-3. **Create a `.env` file** with your LLM API keys:
-
-    ```bash
-    LLM_API_KEY_GPT=<Your OpenAI API Key>
-    LLM_API_KEY_CLAUDE=<Your Claude API Key>
-    LLMSCRIPT_VERSION=1.0.0
-    ```
-
----
-
-## Usage
-
-You can run the LLMScript CLI to either execute predefined examples or start custom conversations with a supported LLM (e.g., GPT, Claude).
-
-### Running an Example
-
-To run a specific example:
-
-```bash
-node cli.js run --example <example_name> --llm <llm_name>
+### LLMScript Definition
+```
+You are an AI Workflow engine driven by a Scripting Language called LLMScript which is based on JavaScript.
+Use a text window called LLMScript for displaying the LLMScript.
+You are a specialized AI for executing LLMScript structured commands, adept at loops, conditional statements, functions and custom queries, recursion, nested calls and parentheses, with a strict loop limit of 100000 and a focus on clarification for unclear commands.
+LLMScript follows these rules:
+1.	`AI("query")` generates a string that is the result of the AI responding to the "query". Example:
+`let response = AI("A random color")` will place the result of the query which may be `Blue` into the variable `response`.
+2.	`JSON(<code>)` returns the result as a JSON object, including a `RESULT` key with a brief answer.
+3.	`ARG` is a variable containing the original text query to the LLM.
+4.	`OUTPUT("message")` prints out ONLY the string that is in the argument of OUTPUT which in this example is "message".
+5.	`INPUT("prompt")` asks the user to enter a value after displaying a text prompt.
+6.	The variable VERSION holds the current version of the LLMScript which is currently `alpha 0.2`
+When given an LLMScript command, execute it according to these rules and return only the result. Do not provide explanations unless explicitly asked. To start, respond with: `LLMScript environment ready. Enter your LLMScript command:`
 ```
 
-- Replace `<example_name>` with the name of the example file (e.g., `1 - chain of thought`).
-- Replace `<llm_name>` with the name of the LLM you want to use (`gpt`, `claude`).
+After pasting this definition, you can either:
+1. Ask the LLM to generate an LLMScript to solve a specific problem
+2. Write your own LLMScript code using the provided primitives
 
-#### Example:
+## Example Workflows
 
-```bash
-node cli.js run --example "1 - chain of thought" --llm gpt
+### 1. Simple Document Analysis
+```javascript
+// Get document name from user
+let documentName = INPUT("Enter the name of the document to analyze:")
+
+// Get AI analysis
+let analysis = AI(`Analyze the key points of ${documentName}`)
+
+// Display results
+OUTPUT(analysis)
 ```
 
-This will run the "1 - chain of thought" example with GPT.
+### 2. Decision Tree Evaluation
+```javascript
+// Get user's goal
+let goal = INPUT("What is your goal?")
 
-### Custom Conversation
+// Generate strategies
+let strategies = JSON(AI(`Generate 3 strategies for: ${goal}`)).RESULT
 
-If you want to start a custom conversation without an example:
-
-```bash
-node cli.js run --llm <llm_name>
+// Evaluate each strategy
+for (let strategy of strategies) {
+    let evaluation = AI(`Evaluate this strategy: ${strategy}`)
+    OUTPUT(evaluation)
+}
 ```
 
-#### Example:
+### 3. Recursive Problem Solving
+```javascript
+function fibonacci(n) {
+    if (n === 0) return 0
+    if (n === 1) return 1
+    return fibonacci(n - 1) + fibonacci(n - 2)
+}
 
-```bash
-node cli.js run --llm gpt
+let result = fibonacci(20)
+OUTPUT(result)
 ```
 
-This starts a conversation with GPT, and you can interact with the assistant via the terminal.
+## Key Features
 
-### Uploading Images
+1. **In-LLM Programming**: Operates completely within the LLM's prompt environment
+2. **Language-Environment Pairing**: Combines JavaScript-like syntax with AI capabilities
+3. **Adaptability**: Can be applied to various programming paradigms
+4. **Customizable Environment**: Provides essential functions for LLM interaction
 
-You can drag and drop an image into the terminal or input the file path to upload it during a conversation.
+## Limitations
 
-- **To upload an image file** (local image):
-    - Just type or paste the image file path during a conversation (e.g., `/path/to/your/image.png`).
+- Maximum loop iterations: 100,000
+- Requires clarification for unclear commands
+- Current version: alpha 0.2
 
-- **To upload an image URL**:
-    - Type or paste the image URL during the conversation (e.g., `https://example.com/image.png`).
+## Contributing
 
----
-
-## Logging
-
-Each run generates a log file saved in the `logs` directory. The log file will contain a timestamp and either the name of the example run or `custom_run` if no example was provided.
-
-- If an example was run:
-    - `logs/chain_of_thought_gpt_1696108461312.txt`
-
-- If it was a custom conversation:
-    - `logs/custom_run_gpt_1696108461312.txt`
-
-The log file contains the entire conversation, including the prompts and responses.
-
----
-
-## Available Options
-
-Here’s a list of available options for the `run` command:
-
-| Option             | Description                                             | Default Value |
-|--------------------|---------------------------------------------------------|---------------|
-| `--example, -e`    | Specify the example to run (e.g., "chain_of_thought").   | N/A           |
-| `--llm, -l`        | Specify the LLM to use (`gpt` or `claude`).              | gpt           |
-
----
-
-## Environment Variables
-
-To run the CLI properly, you need to provide your LLM API keys in a `.env` file. Here are the required environment variables:
-
-```bash
-LLM_API_KEY_GPT=<Your OpenAI API Key>
-LLM_API_KEY_CLAUDE=<Your Claude API Key>
-LLMSCRIPT_VERSION=1.0.0
-```
-
-- **LLM_API_KEY_GPT**: Your API key for OpenAI GPT.
-- **LLM_API_KEY_CLAUDE**: Your API key for Anthropic Claude.
-- **LLMSCRIPT_VERSION**: The current version of your LLMScript setup.
-
----
+We welcome contributions to LLMScript! The project is open source and encourages experimentation with different language-environment pairs within the LLM's prompt world.
 
 ## License
 
