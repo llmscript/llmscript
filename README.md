@@ -13,6 +13,7 @@ For questions, comments, please contact: mishkin@personl.ai
 ## Core Definition
 
 LLMScript is a Turing complete scripting language that runs entirely inside the LLM with no external coding required. It enables the creation of AI-driven workflows that can:
+
 - Execute complex reasoning chains
 - Make decisions using iterative workflows
 - Integrate Chain of Thought (CoT), Tree of Thought (ToT), and Graph of Thought (GoT) reasoning
@@ -20,7 +21,22 @@ LLMScript is a Turing complete scripting language that runs entirely inside the 
 
 ## Getting Started
 
-To use LLMScript, simply copy the following definition into your preferred LLM (like Claude or ChatGPT) and start creating AI workflows. The language can be adapted to work with any programming language or syntax - this is just one example implementation.
+To use LLMScript, follow these steps:
+
+1. **Copy the LLMScript Definition**
+   - Copy the entire definition block below
+   - Paste it into your preferred LLM (ChatGPT, Claude, etc.)
+   - The LLM will respond with: `LLMScript environment ready. Enter your LLMScript command:`
+
+2. **Write or Use LLMScript Code**
+   - Write your own code using the provided primitives
+   - Use one of the example scripts from this repository
+   - Modify existing examples to suit your needs
+
+3. **Execute Your Script**
+   - Paste your LLMScript code into the LLM
+   - The LLM will execute it according to the rules
+   - Interact with any prompts or inputs required
 
 ### LLMScript Definition
 ```
@@ -38,11 +54,9 @@ LLMScript follows these rules:
 When given an LLMScript command, execute it according to these rules and return only the result. Do not provide explanations unless explicitly asked. To start, respond with: `LLMScript environment ready. Enter your LLMScript command:`
 ```
 
-After pasting this definition, you can either:
-1. Ask the LLM to generate an LLMScript to solve a specific problem
-2. Write your own LLMScript code using the provided primitives
+## Example Scripts
 
-## Example Workflows
+Below are example scripts you can copy and use after initializing the LLMScript environment in your LLM. Feel free to modify them or use them as inspiration for your own scripts.
 
 ### 1. Choose Your Own Adventure
 ```javascript
