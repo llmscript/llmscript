@@ -44,31 +44,107 @@ After pasting this definition, you can either:
 
 ## Example Workflows
 
-### 1. Simple Document Analysis
+### 1. Choose Your Own Adventure
 ```javascript
-// Get document name from user
-let documentName = INPUT("Enter the name of the document to analyze:")
+// Initial setup
+let genre = INPUT("Choose genre (fantasy, sci-fi, mystery):")
+let playerName = INPUT("Enter your character's name:")
 
-// Get AI analysis
-let analysis = AI(`Analyze the key points of ${documentName}`)
+// Initialize story state
+let health = 100
+let inventory = []
+let currentLocation = "start"
 
-// Display results
-OUTPUT(analysis)
+// Generate story beginning
+let intro = AI(`Create a brief ${genre} story introduction where ${playerName} faces a challenge.
+End with exactly two choices the player must make.`)
+OUTPUT(intro)
+
+// Main story loop
+while (health > 0 && currentLocation !== "end") {
+    // Get player's choice
+    let choice = INPUT("What do you choose? (1 or 2):")
+
+    // Generate consequence based on choice and current state
+    let consequence = JSON(AI(`Given:
+    - Player ${playerName} with health ${health}
+    - Inventory: ${inventory.join(', ')}
+    - Current location: ${currentLocation}
+    - Genre: ${genre}
+    Generate consequence for choice ${choice} including:
+    {
+        "outcome": "brief description of what happens",
+        "healthChange": number between -30 and +20,
+        "itemFound": "item or empty",
+        "newLocation": "location name",
+        "isEnding": boolean
+    }`)).RESULT
+
+    // Update game state
+    health += consequence.healthChange
+    if (consequence.itemFound) {
+        inventory.push(consequence.itemFound)
+        OUTPUT(`You found: ${consequence.itemFound}`)
+    }
+    currentLocation = consequence.newLocation
+
+    // Display outcome
+    OUTPUT(`\nHealth: ${health}
+${consequence.outcome}`)
+
+    // If not an ending, generate new choices
+    if (!consequence.isEnding && health > 0) {
+        let nextChoices = AI(`Create two new choices for ${playerName} in ${currentLocation},
+considering their inventory: ${inventory.join(', ')}`)
+        OUTPUT(nextChoices)
+    } else {
+        currentLocation = "end"
+    }
+}
+
+// Generate ending based on final state
+let ending = AI(`Create a ${health <= 0 ? "tragic" : "triumphant"} ending for ${playerName}'s
+${genre} adventure, mentioning their final health (${health}) and key items: ${inventory.join(', ')}`)
+OUTPUT(ending)
 ```
 
-### 2. Decision Tree Evaluation
+### 2. Vacation Planner
 ```javascript
-// Get user's goal
-let goal = INPUT("What is your goal?")
+// Get vacation preferences
+let preferences = JSON(AI(`Create a travel preference questionnaire with 4 key questions`)).RESULT
 
-// Generate strategies
-let strategies = JSON(AI(`Generate 3 strategies for: ${goal}`)).RESULT
-
-// Evaluate each strategy
-for (let strategy of strategies) {
-    let evaluation = AI(`Evaluate this strategy: ${strategy}`)
-    OUTPUT(evaluation)
+// Get user inputs
+let answers = {}
+for (let question of preferences) {
+    answers[question] = INPUT(question)
 }
+
+// Generate destination suggestions
+let destinations = JSON(AI(`Based on these preferences:
+${JSON.stringify(answers, null, 2)}
+Suggest 3 perfect vacation destinations. Include for each:
+- Location name
+- Best time to visit
+- Estimated daily budget
+- Top 3 attractions`)).RESULT
+
+// Get user's chosen destination
+let chosen = INPUT(`Choose one destination from:\n${destinations.map(d => d.location).join('\n')}`)
+
+// Create detailed itinerary
+let itinerary = JSON(AI(`Create a 5-day itinerary for ${chosen} considering:
+- Preferences: ${JSON.stringify(answers)}
+- Daily budget: ${destinations.find(d => d.location === chosen).budget}
+- Must-see attractions: ${destinations.find(d => d.location === chosen).attractions.join(', ')}`)).RESULT
+
+// Generate final travel plan
+let travelPlan = AI(`Create a comprehensive travel plan for ${chosen}:
+1. Detailed day-by-day itinerary: ${JSON.stringify(itinerary)}
+2. Packing suggestions based on destination and activities
+3. Local customs and etiquette tips
+4. Emergency contact information and travel tips`)
+
+OUTPUT(travelPlan)
 ```
 
 ### 3. Recursive Problem Solving
@@ -93,7 +169,7 @@ OUTPUT(result)
 ## Limitations
 
 - Maximum loop iterations: 100,000
-- Requires clarification for unclear commands
+- Requires clarification for unclear commands and sometimes
 - Current version: alpha 0.2
 
 ## Contributing
